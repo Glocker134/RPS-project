@@ -7,30 +7,52 @@
 
 <body>
     <h1>Rock - Paper - Scissors</h1>
+    <h3>Remember to open the browser's console with:</h3>
+    <ul>
+        <li>Windows: Ctrl + Shift + J</li>
+        <li>Mac: Ctrl + Option + J</li>
+    </ul>
     <script>
+
+        //Intro to the game
+        function intro() {
+            console.log("Welcome to Rock Paper Scissors! \nThis game will be played between these alerts and the logs in the browser's console.");
+            alert("Welcome to Rock Paper Scissors! \nThis game will be played between these alerts and the logs in the browser's console.");
+            console.log("You will be playing against the computer. First player to win 3 rounds wins the game. \n\nGood luck!");
+            alert("You will be playing against the computer. First player to win 3 rounds wins the game. \n\nGood luck!")
+        }
 
         //Player Input function to validate data entry
         function playerInput() {
-            let flag = true;
             let text = null;
-            while (flag) {
+            while (true) {
+                console.log("Please type your action for this turn - ROCK, PAPER or SCISSORS:");
                 text = prompt("Please type your action for this turn - ROCK, PAPER or SCISSORS:");
-                let newText = text.toUpperCase();
-                if (plays.indexOf(newText) != -1) {
-                    return newText;
+                if (text == null) {
+                    console.log("You must type either ROCK, PAPER, or SCISSORS");
+                    alert("You must type either ROCK, PAPER, or SCISSORS");
                 }
                 else {
-                    alert("You must type either ROCK, PAPER, or SCISSORS");
+                    let newText = text.toUpperCase();
+                    if (plays.indexOf(newText) != -1) {
+                        return newText;
+                    }
+                    else {
+                        console.log("You must type either ROCK, PAPER, or SCISSORS");
+                        alert("You must type either ROCK, PAPER, or SCISSORS");
+                    }
                 }
             }
         }
-        //The random function returns a number between 0 and 2, which is used as the chosen
-        //index for the plays list and determine the CPU's play.
+
+        //The floor and random portion returns a number between 0 and 2. 
+        //This number is used as the chosen "plays" index for the CPU play.
         function computerPlay() {
             return plays[Math.floor(Math.random() * 3)];
-
         }
 
+        //A simple switch to check if the player has won the game, or tied.
+        //Otherwise, it defaults to the player losing.
         function playRound(playerSelection, computerSelection) {
             switch (true) {
                 case (playerSelection == plays[0] && computerSelection == plays[2]):
@@ -46,33 +68,47 @@
             }
         }
 
+        //The core game, first to 3 games is the winner.
         function game() {
-            //EDIT ALL ALERTS WITH CONSOLE.LOG()
+            intro();
             let cpuWin = 0;
             let playerWin = 0;
             let playerChoice;
             let computerChoice;
             while ((cpuWin < 3) && (playerWin < 3)) {
                 playerChoice = playerInput();
+                console.log(playerChoice);
                 computerChoice = computerPlay();
-                if (playRound(playerChoice, computerChoice) == 1) {
-                    alert("You win! " + playerChoice + " beats " + computerChoice + "!");
-                    playerWin++;
+                switch (playRound(playerChoice, computerChoice)) {
+                    case 0: console.log("You lose! " + computerChoice + " beats " + playerChoice + "!");
+                        alert("You lose! " + computerChoice + " beats " + playerChoice + "!");
+                        cpuWin++;
+                        break;
+                    case 1: console.log("You win! " + playerChoice + " beats " + computerChoice + "!");
+                        alert("You win! " + playerChoice + " beats " + computerChoice + "!");
+                        playerWin++;
+                        break;
+                    case 2: console.log("Draw! Both player selected " + playerChoice + "!");
+                        alert("Draw! Both players selected " + playerChoice + "!");
                 }
-                else if (playRound(playerChoice, computerChoice) == 0) {
-                    alert("You lose! " + computerChoice + " beats " + playerChoice + "!");
-                    cpuWin++;
-                }
-                else if (playRound(playerChoice, computerChoice) == 2) {
-                    alert("Draw! Both player and computer selected " + playerChoice + "!");
-                }
+                alert("Current score: \n\nPlayer: " + playerWin + "\nComputer: " + cpuWin);
+                console.log("Current score: \n\nPlayer: " + playerWin + "\nComputer: " + cpuWin);
             }
-            if (cpuWin == 3) alert("You lose! The computer has won 3 games! Try again next time!");
-            else if (playerWin == 3) alert("You win! You have bested the computer in 3 games!");
+            if (cpuWin == 3) {
+                console.log("You lose! The computer has won 3 games! Try again next time!");
+                alert("You lose! The computer has won 3 games! Try again next time!");
+            }
+            else if (playerWin == 3) {
+                console.log("You win! You have bested the computer in 3 games!");
+                alert("You win! You have bested the computer in 3 games!");
+            }
+            console.log("Please refresh the window if you want to play a new game.");
+            alert("Please refresh the window if you want to play a new game.");
         }
 
         const plays = ["ROCK", "PAPER", "SCISSORS"];
         game();
+
     </script>
 </body>
 
